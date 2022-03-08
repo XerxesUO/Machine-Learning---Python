@@ -1,0 +1,27 @@
+import pyodbc     # Importing for making a connection to the database
+import datetime   # Importing to create a date/timestamp for each 
+
+ts = datetime.datetime.now()
+
+connMES = pyodbc.connect('Driver={SQL Server Native Client 11.0};Server=hcadcsql01\mes;Database=master;UID=hollander_prod;PWD=hollander_prod;'
+        )
+cursor = connMES.cursor()
+
+SQL = '''
+
+        SELECT  count(*)
+        FROM    master.dbo.NEOS
+
+      '''
+
+cursor.execute(SQL)
+
+for row in cursor:
+    with open('LogFile.txt', 'a') as f:
+        print(ts, row, file=f)
+    
+"""
+Created on Tue Mar 8 10:57:13 2022
+
+@author: TPosthuma
+"""
